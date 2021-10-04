@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+vector<int> printSpiral(vector<vector<int> >& mat)
+{
+    vector<int> output;
+ //if the size gets 0, then simply return the vector formed so far
+    if (mat.size() == 0)
+        return output;
+ 
+    int R = mat.size(), C = mat[0].size();
+    vector<vector<bool> > visited(R, vector<bool>(C, false));
+    int drow[] = { 0, 1, 0, -1 };
+    int dcol[] = { 1, 0, -1, 0 };
+    int row = 0, col = 0, dir = 0;
+ 
+    // Iterate from 0 to R * C - 1
+    for (int i = 0; i < R * C; i++) {
+        output.push_back(mat[row]);
+        visited[row] = true;
+        int nr = row + drow[dir];
+        int nc = col + dcol[dir];
+ 
+        if (0 <= nr && nr < R && 0 <= nc && nc < C
+            && !visited[nr][nc]) {
+            row = nr;
+            col = nc;
+        }
+        else {
+        //as one of the rows or column is printed, the direction will be
+        //changed so increment by 1
+            dir = (dir + 1) % 4;
+            row += drow[dir];
+            col += dcol[dir];
+        }
+    }
+    return output;
+}
+ 
+// Driver code
+int main()
+{
+    vector<vector<int> > arr{ { 1, 2, 3, 4 },
+                            { 12, 13, 14, 5 },
+                            { 11, 16, 15, 6 },
+                            { 10, 9, 8, 7 } };
+ 
+    for (int i : printSpiral(arr)) {
+        cout << i << " ";
+    }
+    return 0;
+}
+
+
+Output:
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+Time Complexity: O(r*c)
